@@ -51,8 +51,8 @@ namespace ForkStalkSharp.Console
 
 			foreach (var result in forks) {
 				System.Console.WriteLine (result.ForkName);
-				foreach (var commit in result.Branches)
-					System.Console.WriteLine ("\t{0}", commit);
+				foreach (var branch in result.Branches)
+					System.Console.WriteLine ("\t{0} - {1}", branch.Name, branch.LastModified);
 			}
 		}
 	}

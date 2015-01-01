@@ -24,10 +24,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+using System;
 using System.Collections.Generic;
 
 namespace ForkStalkSharp
 {
+	public class BranchResult
+	{
+		/// <summary>
+		/// Gets the name of the branch that has changes.
+		/// </summary>
+		/// <value>The branch.</value>
+		public string Name { get; internal set; }
+
+		/// <summary>
+		/// Gets the time the repository was last modified.
+		/// </summary>
+		/// <value>The time.</value>
+		public DateTime LastModified { get; internal set; }
+	}
+
 	public class ForkStalkResult
 	{
 		/// <summary>
@@ -40,13 +56,13 @@ namespace ForkStalkSharp
 		/// Gets the fork branches which are not synced with the repository.
 		/// </summary>
 		/// <value>The branches.</value>
-		public IReadOnlyList<string> Branches { get { return BranchList; } }
+		public IReadOnlyList<BranchResult> Branches { get { return BranchList; } }
 
-		internal List<string> BranchList { get; private set; }
+		internal List<BranchResult> BranchList { get; private set; }
 		internal ForkStalkResult (string forkName)
 		{
 			ForkName = forkName;
-			BranchList = new List<string> ();
+			BranchList = new List<BranchResult> ();
 		}
 	}
 }

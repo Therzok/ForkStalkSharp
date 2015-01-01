@@ -133,7 +133,10 @@ namespace ForkStalkSharp
 						if (!interestingForks.ContainsKey (fork.FullName))
 							interestingForks.Add (fork.FullName, new ForkStalkResult (fork.FullName));
 
-						interestingForks [fork.FullName].BranchList.Add (branch.Name);
+						interestingForks [fork.FullName].BranchList.Add (new BranchResult {
+							Name = branch.Name,
+							LastModified = forkCommit.Commit.Author.Date
+						});
 					}
 				});
 			});
