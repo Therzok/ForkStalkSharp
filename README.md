@@ -9,5 +9,4 @@ Useful for tracking forks which have contributions.
 
 TODO:
  * [ ] Track and return more information than just fork name and branch.
- * [ ] Track down if a pull request was opened.
  * [ ] Find a way to use less API calls. Rate limiting can hurt.
