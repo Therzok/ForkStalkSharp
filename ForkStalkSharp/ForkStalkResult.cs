@@ -42,6 +42,12 @@ namespace ForkStalkSharp
 		/// </summary>
 		/// <value>The time.</value>
 		public DateTime LastModified { get; internal set; }
+
+		/// <summary>
+		/// Gets the link for the changeset comparison.
+		/// </summary>
+		/// <value>The link.</value>
+		public Uri CompareLink { get; internal set; }
 	}
 
 	public class ForkStalkResult

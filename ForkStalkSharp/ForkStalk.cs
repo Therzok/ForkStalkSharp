@@ -103,6 +103,7 @@ namespace ForkStalkSharp
 				.OrderByDescending (f => f.PushedAt)
 				.Take (forkCount);
 			var pullRequests = pullRequestsTask.Result.ToDictionary (p => p.Head.Label);
+			var lazyBranchTips = new Dictionary<string, Commit> ();
 
 			// Look for new commits.
 			Parallel.ForEach (forks, fork => {
@@ -112,16 +113,30 @@ namespace ForkStalkSharp
 					if (pullRequests.ContainsKey (string.Format ("{0}:{1}", fork.Owner.Login, branch.Name)))
 						return;
 
-					var forkCommit = client.Repository.Commits.Get (fork.Owner.Login, fork.Name, branch.Name).Result;
+					var forkCommit = client.Repository.Commits.Get (fork.Owner.Login, fork.Name, branch.Name).Result.Commit;
 					// Skip commits which happened before the requested time.
-					if (forkCommit.Commit.Author.Date < SinceUtc)
+					if (forkCommit.Author.Date < SinceUtc)
 						return;
 
+					string targetBranch = defaultBranch;
 					// Filter out branches which are not the default one.
 					if (branch.Name != defaultBranch) {
 						// Check for branches which exist in the main repository and have the same tip.
-						if (branches.ContainsKey (branch.Name) && branches [branch.Name].Sha == branch.Commit.Sha)
-							return;
+						if (branches.ContainsKey (branch.Name)) {
+							if (branches [branch.Name].Sha == branch.Commit.Sha)
+								return;
+
+							Commit upstreamCommit;
+							lock (lazyBranchTips) {
+								if (!lazyBranchTips.TryGetValue (branch.Name, out upstreamCommit))
+									lazyBranchTips[branch.Name] = upstreamCommit = client.Repository.Commits.Get (owner, name, branch.Name).Result.Commit;
+							}
+							if (upstreamCommit.Author.Date >= forkCommit.Author.Date)
+								return;
+
+							// Set the branch name if branches diverged.
+							targetBranch = branch.Name;
+						}
 					}
 
 					// If the branch is merged into mainline, skip.
@@ -135,7 +150,9 @@ namespace ForkStalkSharp
 
 						interestingForks [fork.FullName].BranchList.Add (new BranchResult {
 							Name = branch.Name,
-							LastModified = forkCommit.Commit.Author.Date
+							LastModified = forkCommit.Author.Date,
+							CompareLink = new Uri(string.Format ("https://github.com/{0}/{1}/compare/{2}:{3}...{4}",
+								fork.Owner.Login, name, owner, targetBranch, branch.Name)),
 						});
 					}
 				});
