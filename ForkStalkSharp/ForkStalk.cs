@@ -102,14 +102,16 @@ namespace ForkStalkSharp
 			var forks = forksTask.Result.Where (f => f.PushedAt >= SinceUtc)
 				.OrderByDescending (f => f.PushedAt)
 				.Take (forkCount);
-			var pullRequests = pullRequestsTask.Result.ToDictionary (p => p.Head.Ref, p => p);
+			var pullRequests = pullRequestsTask.Result.ToDictionary (p => string.Format("{0}/{1}",
+				p.User.Login,
+				p.Head.Ref));
 
 			// Look for new commits.
 			Parallel.ForEach (forks, fork => {
 				var forkBranches = client.Repository.GetAllBranches (fork.Owner.Login, fork.Name).Result;
 				Parallel.ForEach(forkBranches, branch => {
 					// Check for any open pull request.
-					if (pullRequests.ContainsKey (branch.Name))
+					if (pullRequests.ContainsKey (string.Format ("{0}/{1}", fork.Owner.Login, branch.Name)))
 						return;
 
 					var forkCommit = client.Repository.Commits.Get (fork.Owner.Login, fork.Name, branch.Name).Result;
