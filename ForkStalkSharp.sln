@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForkStalkSharp", "ForkStalkSharp\ForkStalkSharp.csproj", "{BA3A52AF-E02D-4884-90B6-B7D565DF417C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ForkStalkSharp.Console", "ForkStalkSharp.Console\ForkStalkSharp.Console.csproj", "{D80ED58B-F09A-4C03-B7AB-10765054436D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BA3A52AF-E02D-4884-90B6-B7D565DF417C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA3A52AF-E02D-4884-90B6-B7D565DF417C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA3A52AF-E02D-4884-90B6-B7D565DF417C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA3A52AF-E02D-4884-90B6-B7D565DF417C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D80ED58B-F09A-4C03-B7AB-10765054436D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D80ED58B-F09A-4C03-B7AB-10765054436D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D80ED58B-F09A-4C03-B7AB-10765054436D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D80ED58B-F09A-4C03-B7AB-10765054436D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ForkStalkSharp.Console\ForkStalkSharp.Console.csproj
+	EndGlobalSection
+EndGlobal
